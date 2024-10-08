@@ -1,0 +1,20 @@
+{
+  "id": "discord-voice-indicator",
+  "name": "discord-voice-indicator",
+  "title": "Discord Voice Indicator",
+  "description": "Indicates who is speaking in a Discord Voice Channel",
+  "authors": [{"name":"Lanastara"}],
+  "version": "#{VERSION}#",
+  "socket": true,
+  "compatibility": {
+      "minimum": "12",
+      "verified": "12"
+    },
+  "scripts": ["discord-voice-indicator.js"],
+  "relationships": {
+  "requires": []
+  },
+  "url": "#{URL}#",
+  "manifest": "#{MANIFEST}#",
+  "download": "#{DOWNLOAD}#"
+}
