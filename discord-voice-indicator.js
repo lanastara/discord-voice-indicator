@@ -33,9 +33,8 @@ connect = function(){
 }
 
 Hooks.once("init", async () => {
-  
   game.settings.register('discord-voice-indicator', 'server-url', {
-    hint: "Url of the discord bridge"
+    hint: "Url of the discord bridge",
     name: `Server Url`,
     scope: "world",
     config: true,
