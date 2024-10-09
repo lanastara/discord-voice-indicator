@@ -19,7 +19,10 @@ let msg =JSON.parse(event.data)
         }
       }
     );
-    if f_socket.executeForEveryone(player_voice_state_update, )
+    if(f_socket)
+    {
+      f_socket.executeForEveryone(player_voice_state_update )
+    }
   }
 } 
 
