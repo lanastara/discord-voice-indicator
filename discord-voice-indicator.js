@@ -1,16 +1,25 @@
 let socket = null;
 
 socket_message = function(event){
-  let msg =JSON.parse(event.data)
-  console.group();
-  console.lot("message received");
-  console.log(msg);
-  console.groupEnd();
+let msg =JSON.parse(event.data)
+  let user = game.users.get(msg.user);
+  if (user){
+    user.update(
+      {
+        "flags":{
+          "discord-voice-indicator": {
+            "mute": msg.mute, 
+            "deaf": msg.deaf, 
+            "talking": msg.talking
+          }
+        }
+      }
+    );
+  }
 } 
 
 socket_close = function(event){  
   console.log("Socket Closed");
-  socket = null;
 }
 
 socket_error = function(event){
@@ -27,7 +36,11 @@ connect = function(){
   socket = new WebSocket(game.settings.get('discord-voice-indicator', 'server-url'));
   socket.onopen=(event)=>{
     console.log("Socket Opened");
-    socket.send(JSON.stringify({}))
+    let users = {};
+     for (var [id, user] of game.users.entries()){
+      users[id]=user.name;
+    }
+    socket.send(JSON.stringify(users));
   };
   socket.onmessage = socket_message;
   socket.onerror=socket_error;
