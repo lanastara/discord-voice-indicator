@@ -72,14 +72,10 @@ Hooks.once("socketlib.ready", () => {
 
 function player_voice_state_updated(update){
     let id = update.user;
-    let flags = c.flags["discord-voice-indicator"];
-    if (!flags){
-      continue;
-    }
     
     let li =$(`li.player[data-user-id=${id}]`);
     if(!li){
-      continue;
+      return;
     }
     let talking = li.find(".player-active");
     let mute = li.find(".mute");
