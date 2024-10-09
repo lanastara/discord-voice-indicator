@@ -1,7 +1,7 @@
 let socket = null;
 
 socket_message = function(event){
-  let msg =JSON::parse(event.data)
+  let msg =JSON.parse(event.data)
   console.group();
   console.lot("message received");
   console.log(msg);
