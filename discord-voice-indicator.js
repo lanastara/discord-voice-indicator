@@ -2,9 +2,6 @@ let socket = null;
 let f_socket=null;
 
 socket_message = function(event){
-player_voice_state_updated=function(){
-  
-}
 let msg =JSON.parse(event.data)
   let user = game.users.get(msg.user);
   if (user){
@@ -72,6 +69,9 @@ Hooks.once("socketlib.ready", () => {
   f_socket.register("PlayerVoiceStateUpdated", player_voice_state_updated);
 });
 
+function player_voice_state_updated(){
+  
+}
 Hooks.on('renderSettings', (app, html)=>{
   html.find('#settings-access').prepend($(`<button><i class="fa-brands fa-discord"></i>Connect to Bridge</button>`).click(function(){connect()}))
 })
