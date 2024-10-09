@@ -18,7 +18,7 @@ let msg =JSON.parse(event.data)
     );
     if(f_socket)
     {
-      f_socket.executeForEveryone(player_voice_state_update )
+      f_socket.executeForEveryone("PlayerVoiceStateUpdated");
     }
   }
 } 
@@ -77,5 +77,5 @@ Hooks.on('renderSettings', (app, html)=>{
 })
 
 Hooks.on("renderPlayerList", (app, html)=>{
-  
+ html.find(".player").append($('<i class="fa-solid fa-microphone-slash voice-indicator"></i><i class="fa-solid fa-volume-xmark voice-indicator"></i>'))    
 })

@@ -11,6 +11,7 @@
       "verified": "12"
     },
   "scripts": ["discord-voice-indicator.js"],
+  "styles": ["discord-voice-indicator.css"],
   "relationships": {
     "requires": [
       {
