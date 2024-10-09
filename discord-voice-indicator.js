@@ -69,7 +69,7 @@ Hooks.once("init", async () => {
 
 Hooks.once("socketlib.ready", () => {
   f_socket = socketlib.registerModule("discord-voice-indicator");
-  socket.register("PlayerVoiceStateUpdated", player_voice_state_updated);
+  f_socket.register("PlayerVoiceStateUpdated", player_voice_state_updated);
 });
 
 Hooks.on('renderSettings', (app, html)=>{
