@@ -1,6 +1,10 @@
 let socket = null;
+let f_socket=null;
 
 socket_message = function(event){
+player_voice_state_updated=function(){
+  
+}
 let msg =JSON.parse(event.data)
   let user = game.users.get(msg.user);
   if (user){
@@ -15,6 +19,7 @@ let msg =JSON.parse(event.data)
         }
       }
     );
+    if f_socket.executeForEveryone(player_voice_state_update, )
   }
 } 
 
@@ -57,7 +62,11 @@ Hooks.once("init", async () => {
     default: "ws://192.168.0.11:12345",
     requiresReload: false
   });
+});
 
+Hooks.once("socketlib.ready", () => {
+  f_socket = socketlib.registerModule("discord-voice-indicator");
+  socket.register("PlayerVoiceStateUpdated", player_voice_state_updated);
 });
 
 Hooks.on('renderSettings', (app, html)=>{
