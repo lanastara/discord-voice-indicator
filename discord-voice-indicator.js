@@ -1,9 +1,10 @@
 let socket = null;
 
 socket_message = function(event){
+  let msg =JSON::parse(event.data)
   console.group();
-  console.log("Message Received");
-  console.log(event);
+  console.lot("message received");
+  console.log(msg);
   console.groupEnd();
 } 
 
@@ -14,8 +15,8 @@ socket_close = function(event){
 
 socket_error = function(event){
   console.group();
-  console.errof("Socket Error:");
-  console.errof(event);
+  console.error("Socket Error:");
+  console.error(event);
   console.groupEnd();
 }
 
@@ -26,6 +27,7 @@ connect = function(){
   socket = new WebSocket(game.settings.get('discord-voice-indicator', 'server-url'));
   socket.onopen=(event)=>{
     console.log("Socket Opened");
+    socket.send(JSON.stringify({}))
   };
   socket.onmessage = socket_message;
   socket.onerror=socket_error;
@@ -39,7 +41,7 @@ Hooks.once("init", async () => {
     scope: "world",
     config: true,
     type: String,
-    default: "ws://127.0.0.1:12345",
+    default: "ws://192.168.0.11:12345",
     requiresReload: false
   });
 
@@ -49,4 +51,6 @@ Hooks.on('renderSettings', (app, html)=>{
   html.find('#settings-access').prepend($(`<button><i class="fa-brands fa-discord"></i>Connect to Bridge</button>`).click(function(){connect()}))
 })
 
-
+Hooks.on("renderPlayerList", (app, html)=>{
+  
+})
