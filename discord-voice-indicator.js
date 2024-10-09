@@ -4,6 +4,7 @@ let f_socket=null;
 socket_message = function(event){
 let msg =JSON.parse(event.data)
   let user = game.users.get(msg.user);
+  console.log(msg);
   if (user){
     user.update(
       {
@@ -18,7 +19,7 @@ let msg =JSON.parse(event.data)
     );
     if(f_socket)
     {
-      f_socket.executeForEveryone("PlayerVoiceStateUpdated");
+      f_socket.executeForEveryone("PlayerVoiceStateUpdated", msg);
     }
   }
 } 
@@ -69,13 +70,78 @@ Hooks.once("socketlib.ready", () => {
   f_socket.register("PlayerVoiceStateUpdated", player_voice_state_updated);
 });
 
-function player_voice_state_updated(){
-  
+function player_voice_state_updated(update){
+    let id = update.user;
+    let flags = c.flags["discord-voice-indicator"];
+    if (!flags){
+      continue;
+    }
+    
+    let li =$(`li.player[data-user-id=${id}]`);
+    if(!li){
+      continue;
+    }
+    let talking = li.find(".player-active");
+    let mute = li.find(".mute");
+    let deaf = li.find(".deaf");
+    if(update.talking)
+    {
+      talking.addClass("outline");
+    }else{
+      talking.removeClass("outline");
+    }
+    if(update.mute)
+    {
+      mute.removeClass("disabled")
+    }else{
+      mute.addClass("disabled")
+    }
+    
+    if(update.deaf)
+    {
+      deaf.removeClass("disabled")
+    }else{
+      deaf.addClass("disabled")
+    }
 }
 Hooks.on('renderSettings', (app, html)=>{
   html.find('#settings-access').prepend($(`<button><i class="fa-brands fa-discord"></i>Connect to Bridge</button>`).click(function(){connect()}))
 })
 
 Hooks.on("renderPlayerList", (app, html)=>{
- html.find(".player").append($('<i class="fa-solid fa-microphone-slash voice-indicator"></i><i class="fa-solid fa-volume-xmark voice-indicator"></i>'))    
+   html.find(".player").append($('<i class="fa-solid fa-microphone-slash voice-indicator mute disabled"></i><i class="fa-solid fa-volume-xmark voice-indicator deaf disabled"></i>'));
+  for (var c of game.users){
+    let id = c.id;
+    let flags = c.flags["discord-voice-indicator"];
+    if (!flags){
+      continue;
+    }
+  
+    let li =$(`li.player[data-user-id=${id}]`);
+    if(!li){
+      continue;
+    }
+    let talking = li.find(".player-active");
+    let mute = li.find(".mute");
+    let deaf = li.find(".deaf");
+    if(flags.talking)
+    {
+      talking.addClass("outline");
+    }else{
+      talking.removeClass("outline");
+    }
+    if(flags.mute)
+    {
+      mute.removeClass("disabled")
+    }else{
+      mute.addClass("disabled")
+    }
+  
+    if(flags.deaf)
+    {
+      deaf.removeClass("disabled")
+    }else{
+      deaf.addClass("disabled")
+    }
+  }
 })

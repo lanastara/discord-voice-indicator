@@ -1,4 +1,13 @@
 
 .voice-indicator {
+  color: red;
   flex: 0 0 12px
+}
+
+.voice-indicator.disabled {
+  display:none;
+}
+
+.player-active.outline{
+  outline: 5px solid #3BA53B
 }
